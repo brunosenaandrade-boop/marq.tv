@@ -94,3 +94,4 @@ Script de verificação que:
 **Data:** 30/11/2025
 **Local:** C:\Users\Outlier\Documents\SITE DO FABIO\site\
 **Status:** ✅ COMPLETO
+"# marq.tv" 
