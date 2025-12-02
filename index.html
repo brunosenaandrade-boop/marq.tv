@@ -40,28 +40,59 @@
   <!-- Preload critical resources -->
   <link rel="preload" href="images/novologotipo.jpg" as="image">
 </head>
-<body>
+<body data-theme="dark">
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <div class="preloader-logo">
+        <img src="images/novologotipo.jpg" alt="Marques.TV">
+      </div>
+      <div class="preloader-spinner"></div>
+      <p>Carregando...</p>
+    </div>
+  </div>
 
   <!-- Particles Background -->
   <canvas id="particles-canvas"></canvas>
 
   <!-- Navigation -->
-  <nav class="navbar">
+  <nav class="navbar" role="navigation" aria-label="Menu principal">
     <div class="container">
-      <a href="#" class="nav-logo">
+      <a href="#" class="nav-logo" aria-label="Marques.TV - Página inicial">
         <img src="images/novologotipo.jpg" alt="Marques.TV Logo">
         <span>Marques.TV</span>
       </a>
 
-      <ul class="nav-menu">
-        <li><a href="#inicio">Início</a></li>
-        <li><a href="#servicos">Serviços</a></li>
-        <li><a href="#galeria">Galeria</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#contato">Contato</a></li>
+      <ul class="nav-menu" role="menubar">
+        <li role="none"><a href="#inicio" role="menuitem">Início</a></li>
+        <li role="none"><a href="#servicos" role="menuitem">Serviços</a></li>
+        <li role="none"><a href="#galeria" role="menuitem">Galeria</a></li>
+        <li role="none"><a href="#depoimentos" role="menuitem">Depoimentos</a></li>
+        <li role="none"><a href="#sobre" role="menuitem">Sobre</a></li>
+        <li role="none"><a href="#faq" role="menuitem">FAQ</a></li>
+        <li role="none"><a href="#contato" role="menuitem">Contato</a></li>
       </ul>
 
-      <div class="nav-toggle">
+      <!-- Theme Toggle -->
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <div class="nav-toggle" aria-label="Abrir menu" aria-expanded="false" role="button" tabindex="0">
         <span></span>
         <span></span>
         <span></span>
@@ -69,15 +100,26 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero" id="inicio">
+  <!-- Hero Section with Parallax -->
+  <section class="hero parallax-section" id="inicio">
+    <div class="hero-bg-layers">
+      <div class="hero-bg-layer layer-1"></div>
+      <div class="hero-bg-layer layer-2"></div>
+      <div class="hero-bg-layer layer-3"></div>
+    </div>
+
     <div class="container">
       <div class="hero-content fade-in">
         <div class="hero-badge">
+          <span class="badge-pulse"></span>
           <span>Desde 1994 no mercado</span>
         </div>
 
-        <h1>Transformamos seus eventos em experiências inesquecíveis</h1>
+        <h1 class="hero-title">
+          <span class="title-line">Transformamos seus</span>
+          <span class="title-line gradient-text">eventos em experiências</span>
+          <span class="title-line">inesquecíveis</span>
+        </h1>
 
         <p class="hero-subtitle">
           Sonorização profissional, iluminação espetacular, telões de alta definição
@@ -85,32 +127,70 @@
         </p>
 
         <div class="hero-buttons">
-          <a href="https://wa.me/5548996776089?text=Olá! Vim pelo site e gostaria de um orçamento." class="btn btn-whatsapp" target="_blank">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <a href="https://wa.me/5548996776089?text=Olá! Vim pelo site e gostaria de um orçamento." class="btn btn-whatsapp" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
             Fale pelo WhatsApp
           </a>
           <a href="#servicos" class="btn btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
             Ver Serviços
           </a>
         </div>
 
         <div class="hero-stats">
-          <div class="stat-item">
-            <div class="stat-number" data-target="30">30+</div>
-            <div class="stat-label">Anos de Experiência</div>
+          <div class="stat-item" data-aos="fade-up">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number" data-target="30">0</div>
+              <div class="stat-label">Anos de Experiência</div>
+            </div>
           </div>
-          <div class="stat-item">
-            <div class="stat-number" data-target="5000">5000+</div>
-            <div class="stat-label">Eventos Realizados</div>
+          <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number" data-target="5000">0</div>
+              <div class="stat-label">Eventos Realizados</div>
+            </div>
           </div>
-          <div class="stat-item">
-            <div class="stat-number" data-target="50000">50000+</div>
-            <div class="stat-label">Trilhas Sonoras</div>
+          <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18V5l12-2v13"></path>
+                <circle cx="6" cy="18" r="3"></circle>
+                <circle cx="18" cy="16" r="3"></circle>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number" data-target="50000">0</div>
+              <div class="stat-label">Trilhas Sonoras</div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+      <span>Role para baixo</span>
     </div>
   </section>
 
@@ -125,87 +205,175 @@
 
       <div class="services-grid stagger-children">
         <!-- Service 1: Audio -->
-        <div class="service-card">
-          <div class="service-icon">🎵</div>
-          <h3>Sonorização Profissional</h3>
-          <p>Sistemas de áudio de alta fidelidade para qualquer tipo de evento.</p>
-          <ul>
-            <li>Caixas de som line array</li>
-            <li>Mesas de som digitais</li>
-            <li>Microfones sem fio</li>
-            <li>Estúdio com Microfone Neumann</li>
-          </ul>
+        <div class="service-card" data-category="audio">
+          <div class="service-card-inner">
+            <div class="service-front">
+              <div class="service-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 18V5l12-2v13"></path>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+              </div>
+              <h3>Sonorização Profissional</h3>
+              <p>Sistemas de áudio de alta fidelidade para qualquer tipo de evento.</p>
+              <span class="card-cta">Saiba mais +</span>
+            </div>
+            <div class="service-back">
+              <h4>Equipamentos</h4>
+              <ul>
+                <li>Caixas de som line array</li>
+                <li>Mesas de som digitais</li>
+                <li>Microfones sem fio</li>
+                <li>Estúdio com Microfone Neumann</li>
+              </ul>
+              <a href="#contato" class="btn btn-small">Solicitar Orçamento</a>
+            </div>
+          </div>
         </div>
 
         <!-- Service 2: Lighting -->
-        <div class="service-card">
-          <div class="service-icon">💡</div>
-          <h3>Iluminação Profissional</h3>
-          <p>Efeitos luminosos que transformam qualquer ambiente.</p>
-          <ul>
-            <li>Moving heads</li>
-            <li>Sky Walker / Sky Paper CO2</li>
-            <li>Máquina de bolhas</li>
-            <li>Efeito gelo seco</li>
-          </ul>
+        <div class="service-card" data-category="iluminacao">
+          <div class="service-card-inner">
+            <div class="service-front">
+              <div class="service-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 21h6"></path>
+                  <path d="M12 3a6 6 0 0 0-6 6c0 1.5.5 3 2 4s2.5 2.5 2.5 5h3c0-2.5 1-3.5 2.5-5s2-2.5 2-4a6 6 0 0 0-6-6z"></path>
+                </svg>
+              </div>
+              <h3>Iluminação Profissional</h3>
+              <p>Efeitos luminosos que transformam qualquer ambiente.</p>
+              <span class="card-cta">Saiba mais +</span>
+            </div>
+            <div class="service-back">
+              <h4>Equipamentos</h4>
+              <ul>
+                <li>Moving heads</li>
+                <li>Sky Walker / Sky Paper CO2</li>
+                <li>Máquina de bolhas</li>
+                <li>Efeito gelo seco</li>
+              </ul>
+              <a href="#contato" class="btn btn-small">Solicitar Orçamento</a>
+            </div>
+          </div>
         </div>
 
         <!-- Service 3: Screens -->
-        <div class="service-card">
-          <div class="service-icon">📺</div>
-          <h3>Telões e Projeção</h3>
-          <p>Tecnologia visual de ponta para apresentações impactantes.</p>
-          <ul>
-            <li>Telões LED 4K</li>
-            <li>TV's LED 50" em treliça</li>
-            <li>Vídeo Wall</li>
-            <li>Tela Vikuiti / Datashow</li>
-          </ul>
+        <div class="service-card" data-category="video">
+          <div class="service-card-inner">
+            <div class="service-front">
+              <div class="service-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <h3>Telões e Projeção</h3>
+              <p>Tecnologia visual de ponta para apresentações impactantes.</p>
+              <span class="card-cta">Saiba mais +</span>
+            </div>
+            <div class="service-back">
+              <h4>Equipamentos</h4>
+              <ul>
+                <li>Telões LED 4K</li>
+                <li>TV's LED 50" em treliça</li>
+                <li>Vídeo Wall</li>
+                <li>Tela Vikuiti / Datashow</li>
+              </ul>
+              <a href="#contato" class="btn btn-small">Solicitar Orçamento</a>
+            </div>
+          </div>
         </div>
 
         <!-- Service 4: Structure -->
-        <div class="service-card">
-          <div class="service-icon">🎪</div>
-          <h3>Estruturas e Palcos</h3>
-          <p>Montagem completa para shows e apresentações.</p>
-          <ul>
-            <li>Palcos praticáveis</li>
-            <li>Treliça Box Truss Alumínio</li>
-            <li>Biombos acústicos</li>
-            <li>Divisórias móveis</li>
-          </ul>
+        <div class="service-card" data-category="estrutura">
+          <div class="service-card-inner">
+            <div class="service-front">
+              <div class="service-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 21h18"></path>
+                  <path d="M5 21V7l8-4 8 4v14"></path>
+                  <path d="M9 21v-4h6v4"></path>
+                </svg>
+              </div>
+              <h3>Estruturas e Palcos</h3>
+              <p>Montagem completa para shows e apresentações.</p>
+              <span class="card-cta">Saiba mais +</span>
+            </div>
+            <div class="service-back">
+              <h4>Equipamentos</h4>
+              <ul>
+                <li>Palcos praticáveis</li>
+                <li>Treliça Box Truss Alumínio</li>
+                <li>Biombos acústicos</li>
+                <li>Divisórias móveis</li>
+              </ul>
+              <a href="#contato" class="btn btn-small">Solicitar Orçamento</a>
+            </div>
+          </div>
         </div>
 
         <!-- Service 5: DJ -->
-        <div class="service-card">
-          <div class="service-icon">🎧</div>
-          <h3>DJ e Entretenimento</h3>
-          <p>Animação profissional para festas e eventos.</p>
-          <ul>
-            <li>DJ profissional</li>
-            <li>Videokê / Karaokê</li>
-            <li>Mestre de cerimônias</li>
-            <li>Lives e transmissões</li>
-          </ul>
+        <div class="service-card" data-category="entretenimento">
+          <div class="service-card-inner">
+            <div class="service-front">
+              <div class="service-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M12 2v4"></path>
+                  <path d="M12 18v4"></path>
+                </svg>
+              </div>
+              <h3>DJ e Entretenimento</h3>
+              <p>Animação profissional para festas e eventos.</p>
+              <span class="card-cta">Saiba mais +</span>
+            </div>
+            <div class="service-back">
+              <h4>Serviços</h4>
+              <ul>
+                <li>DJ profissional</li>
+                <li>Videokê / Karaokê</li>
+                <li>Mestre de cerimônias</li>
+                <li>Lives e transmissões</li>
+              </ul>
+              <a href="#contato" class="btn btn-small">Solicitar Orçamento</a>
+            </div>
+          </div>
         </div>
 
         <!-- Service 6: Extra -->
-        <div class="service-card">
-          <div class="service-icon">⚡</div>
-          <h3>Serviços Especiais</h3>
-          <p>Soluções extras para eventos perfeitos.</p>
-          <ul>
-            <li>Gerador de energia</li>
-            <li>Climatizadores de ar</li>
-            <li>Plantão técnico 24h</li>
-            <li>Locução profissional</li>
-          </ul>
+        <div class="service-card" data-category="extras">
+          <div class="service-card-inner">
+            <div class="service-front">
+              <div class="service-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <h3>Serviços Especiais</h3>
+              <p>Soluções extras para eventos perfeitos.</p>
+              <span class="card-cta">Saiba mais +</span>
+            </div>
+            <div class="service-back">
+              <h4>Serviços</h4>
+              <ul>
+                <li>Gerador de energia</li>
+                <li>Climatizadores de ar</li>
+                <li>Plantão técnico 24h</li>
+                <li>Locução profissional</li>
+              </ul>
+              <a href="#contato" class="btn btn-small">Solicitar Orçamento</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Gallery Section -->
+  <!-- Gallery Section with Carousel and Filters -->
   <section class="gallery" id="galeria">
     <div class="container">
       <div class="section-header fade-in">
@@ -214,64 +382,311 @@
         <p>Confira alguns dos eventos que realizamos com excelência.</p>
       </div>
 
-      <div class="gallery-grid stagger-children">
-        <div class="gallery-item">
-          <img src="images/fotoprincipalsite.jpg" alt="Estrutura de palco para evento">
-          <div class="gallery-overlay">
-            <div>
-              <h4>Estrutura Completa</h4>
-              <p>Palco e iluminação profissional</p>
+      <!-- Gallery Filters -->
+      <div class="gallery-filters fade-in">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="casamento">Casamentos</button>
+        <button class="filter-btn" data-filter="corporativo">Corporativos</button>
+        <button class="filter-btn" data-filter="show">Shows</button>
+        <button class="filter-btn" data-filter="estrutura">Estruturas</button>
+      </div>
+
+      <!-- Gallery Carousel -->
+      <div class="gallery-carousel">
+        <button class="carousel-btn carousel-prev" aria-label="Anterior">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="gallery-track">
+          <div class="gallery-grid stagger-children">
+            <div class="gallery-item" data-category="estrutura">
+              <img src="images/fotoprincipalsite.jpg" alt="Estrutura de palco para evento" loading="lazy">
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Estrutura Completa</h4>
+                  <p>Palco e iluminação profissional</p>
+                  <span class="gallery-category">Estrutura</span>
+                </div>
+                <button class="gallery-zoom" aria-label="Ampliar imagem">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="gallery-item" data-category="casamento">
+              <img src="images/casamento2.jpg" alt="Evento de casamento" loading="lazy">
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Casamentos</h4>
+                  <p>Som e luz para momentos especiais</p>
+                  <span class="gallery-category">Casamento</span>
+                </div>
+                <button class="gallery-zoom" aria-label="Ampliar imagem">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="gallery-item" data-category="show">
+              <img src="images/fotoseditada.jpg" alt="Show musical" loading="lazy">
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Shows e Bandas</h4>
+                  <p>Assessoria estrutural completa</p>
+                  <span class="gallery-category">Show</span>
+                </div>
+                <button class="gallery-zoom" aria-label="Ampliar imagem">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="gallery-item" data-category="corporativo">
+              <img src="images/fotosprodusul33.jpg" alt="Participação em feira" loading="lazy">
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Feiras e Exposições</h4>
+                  <p>Eventos corporativos</p>
+                  <span class="gallery-category">Corporativo</span>
+                </div>
+                <button class="gallery-zoom" aria-label="Ampliar imagem">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="gallery-item" data-category="estrutura">
+              <img src="images/fotoneumannsite.jpg" alt="Estúdio de áudio" loading="lazy">
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Estúdio de Áudio</h4>
+                  <p>Microfone Neumann profissional</p>
+                  <span class="gallery-category">Estrutura</span>
+                </div>
+                <button class="gallery-zoom" aria-label="Ampliar imagem">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="gallery-item" data-category="corporativo">
+              <img src="images/ledsnovos.jpg" alt="TVs LED" loading="lazy">
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>TV's LED</h4>
+                  <p>Distribuição wireless de imagens</p>
+                  <span class="gallery-category">Corporativo</span>
+                </div>
+                <button class="gallery-zoom" aria-label="Ampliar imagem">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="gallery-item">
-          <img src="images/casamento2.jpg" alt="Evento de casamento">
-          <div class="gallery-overlay">
-            <div>
-              <h4>Casamentos</h4>
-              <p>Som e luz para momentos especiais</p>
+        <button class="carousel-btn carousel-next" aria-label="Próximo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Gallery Dots -->
+      <div class="gallery-dots" role="tablist" aria-label="Navegação da galeria"></div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="depoimentos">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Depoimentos</span>
+        <h2>O que nossos clientes dizem</h2>
+        <p>A satisfação dos nossos clientes é nossa maior recompensa.</p>
+      </div>
+
+      <div class="testimonials-carousel">
+        <div class="testimonials-track">
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <blockquote>
+              "Excelente profissionalismo! O som e iluminação do nosso casamento ficaram perfeitos.
+              Equipe super atenciosa e pontual. Recomendo demais!"
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar">M</div>
+              <div class="author-info">
+                <strong>Mariana Silva</strong>
+                <span>Casamento em Criciúma</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <blockquote>
+              "Parceria de anos para nossos eventos corporativos. Sempre entregam
+              qualidade e pontualidade. O suporte técnico 24h faz toda diferença!"
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar">R</div>
+              <div class="author-info">
+                <strong>Roberto Cardoso</strong>
+                <span>Diretor de Eventos - Empresa ABC</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <blockquote>
+              "O show da minha banda ficou incrível! Qualidade de som impecável,
+              iluminação cinematográfica. Melhor investimento que fizemos!"
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar">L</div>
+              <div class="author-info">
+                <strong>Lucas Mendes</strong>
+                <span>Músico - Banda Estrelas do Sul</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <blockquote>
+              "Festa de 15 anos da minha filha foi um sonho! A equipe cuidou de tudo
+              com muito carinho e profissionalismo. Todos os convidados elogiaram!"
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar">A</div>
+              <div class="author-info">
+                <strong>Ana Paula Costa</strong>
+                <span>Festa de Debutante em Tubarão</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="gallery-item">
-          <img src="images/fotoseditada.jpg" alt="Show musical">
-          <div class="gallery-overlay">
-            <div>
-              <h4>Shows e Bandas</h4>
-              <p>Assessoria estrutural completa</p>
-            </div>
-          </div>
+        <div class="testimonials-nav">
+          <button class="testimonial-prev" aria-label="Depoimento anterior">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="testimonials-dots"></div>
+          <button class="testimonial-next" aria-label="Próximo depoimento">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="gallery-item">
-          <img src="images/fotosprodusul33.jpg" alt="Participação em feira">
-          <div class="gallery-overlay">
-            <div>
-              <h4>Feiras e Exposições</h4>
-              <p>Eventos corporativos</p>
-            </div>
+  <!-- Clients/Partners Logos -->
+  <section class="clients">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Nossos Parceiros</span>
+        <h2>Empresas que confiam em nós</h2>
+      </div>
+
+      <div class="clients-marquee">
+        <div class="clients-track">
+          <div class="client-logo">
+            <div class="logo-placeholder">Prefeitura de Criciúma</div>
           </div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="images/fotoneumannsite.jpg" alt="Estúdio de áudio">
-          <div class="gallery-overlay">
-            <div>
-              <h4>Estúdio de Áudio</h4>
-              <p>Microfone Neumann profissional</p>
-            </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">SATC</div>
           </div>
-        </div>
-
-        <div class="gallery-item">
-          <img src="images/ledsnovos.jpg" alt="TVs LED">
-          <div class="gallery-overlay">
-            <div>
-              <h4>TV's LED</h4>
-              <p>Distribuição wireless de imagens</p>
-            </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">UNESC</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">ACIC</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">CDL Criciúma</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">Produsul</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">Prefeitura de Criciúma</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">SATC</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">UNESC</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">ACIC</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">CDL Criciúma</div>
+          </div>
+          <div class="client-logo">
+            <div class="logo-placeholder">Produsul</div>
           </div>
         </div>
       </div>
@@ -283,7 +698,11 @@
     <div class="container">
       <div class="about-content">
         <div class="about-image fade-in-left">
-          <img src="images/a_MidiaMarques.jpg" alt="Equipe Marques.TV">
+          <img src="images/a_MidiaMarques.jpg" alt="Equipe Marques.TV" loading="lazy">
+          <div class="about-image-badge">
+            <span class="badge-number">30+</span>
+            <span class="badge-text">Anos de experiência</span>
+          </div>
         </div>
 
         <div class="about-text fade-in-right">
@@ -300,7 +719,12 @@
 
           <div class="about-features">
             <div class="about-feature">
-              <div class="about-feature-icon">✓</div>
+              <div class="about-feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
               <div>
                 <h4>Empresa Consolidada</h4>
                 <p>CNPJ ativo desde 1994</p>
@@ -308,7 +732,15 @@
             </div>
 
             <div class="about-feature">
-              <div class="about-feature-icon">📄</div>
+              <div class="about-feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
               <div>
                 <h4>Nota Fiscal</h4>
                 <p>NFS-e emitida</p>
@@ -316,7 +748,12 @@
             </div>
 
             <div class="about-feature">
-              <div class="about-feature-icon">🕐</div>
+              <div class="about-feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
               <div>
                 <h4>Plantão 24h</h4>
                 <p>Suporte técnico integral</p>
@@ -324,12 +761,113 @@
             </div>
 
             <div class="about-feature">
-              <div class="about-feature-icon">⚡</div>
+              <div class="about-feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
               <div>
                 <h4>Gerador</h4>
                 <p>Energia garantida</p>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Dúvidas Frequentes</span>
+        <h2>Perguntas e Respostas</h2>
+        <p>Encontre respostas para as perguntas mais comuns sobre nossos serviços.</p>
+      </div>
+
+      <div class="faq-grid fade-in">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Qual a área de atendimento da Marques.TV?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Atendemos toda a região Sul de Santa Catarina, incluindo Criciúma, Tubarão, Florianópolis,
+            São José e todo o litoral catarinense. Para eventos fora dessa região, consulte-nos para verificar disponibilidade.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Vocês emitem nota fiscal?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sim! Somos uma empresa regularizada com CNPJ ativo desde 1994. Emitimos NFS-e (Nota Fiscal de Serviços Eletrônica)
+            para todos os serviços prestados. Também facilitamos pagamento via boleto bancário.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Qual a antecedência necessária para contratar?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Recomendamos que o contato seja feito com pelo menos 30 dias de antecedência para eventos maiores.
+            Para eventos menores, 15 dias geralmente são suficientes. Porém, quanto antes entrar em contato, maior a garantia de disponibilidade.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Vocês oferecem suporte técnico durante o evento?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sim! Oferecemos plantão técnico 24 horas. Nossa equipe permanece no evento para garantir que tudo
+            funcione perfeitamente. Em caso de qualquer problema, resolvemos imediatamente.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>E se faltar energia elétrica durante o evento?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Temos gerador de energia disponível para locação! Com isso, seu evento continua normalmente mesmo
+            em caso de queda de energia. É uma garantia extra de tranquilidade para eventos ao ar livre ou em locais com infraestrutura limitada.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Quais formas de pagamento são aceitas?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Aceitamos diversas formas de pagamento: PIX, transferência bancária, boleto e cartões de crédito.
+            Para eventos maiores, oferecemos condições especiais de parcelamento. Consulte-nos para mais detalhes.</p>
           </div>
         </div>
       </div>
@@ -349,9 +887,9 @@
           </p>
 
           <div class="contact-methods">
-            <a href="https://wa.me/5548996776089" target="_blank" class="contact-method">
+            <a href="https://wa.me/5548996776089" target="_blank" rel="noopener" class="contact-method">
               <div class="contact-method-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
               </div>
@@ -363,7 +901,7 @@
 
             <a href="mailto:marquestv@hotmail.com" class="contact-method">
               <div class="contact-method-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
               </div>
@@ -375,7 +913,7 @@
 
             <div class="contact-method">
               <div class="contact-method-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
               </div>
@@ -388,11 +926,11 @@
         </div>
 
         <div class="contact-form-wrapper fade-in-right">
-          <form class="contact-form" action="#" method="POST">
+          <form class="contact-form" action="#" method="POST" id="contactForm">
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Nome completo</label>
-                <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                <input type="text" id="name" name="name" placeholder="Seu nome" required aria-required="true">
               </div>
               <div class="form-group">
                 <label for="phone">Telefone</label>
@@ -402,19 +940,32 @@
 
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" required aria-required="true">
+            </div>
+
+            <div class="form-group">
+              <label for="service">Tipo de Serviço</label>
+              <select id="service" name="service">
+                <option value="">Selecione um serviço</option>
+                <option value="sonorizacao">Sonorização</option>
+                <option value="iluminacao">Iluminação</option>
+                <option value="teloes">Telões e Projeção</option>
+                <option value="estruturas">Estruturas e Palcos</option>
+                <option value="dj">DJ e Entretenimento</option>
+                <option value="completo">Pacote Completo</option>
+              </select>
             </div>
 
             <div class="form-group">
               <label for="message">Detalhes do evento</label>
-              <textarea id="message" name="message" placeholder="Descreva seu evento: data, local, tipo de serviço desejado..." required></textarea>
+              <textarea id="message" name="message" placeholder="Descreva seu evento: data, local, tipo de serviço desejado..." required aria-required="true"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%;">
-              Enviar via WhatsApp
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            <button type="submit" class="btn btn-primary btn-full">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
+              Enviar via WhatsApp
             </button>
           </form>
         </div>
@@ -423,7 +974,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer-content">
         <div class="footer-brand">
@@ -466,19 +1017,19 @@
           </ul>
 
           <div class="footer-social" style="margin-top: 20px;">
-            <a href="https://www.facebook.com/fabio.marquesdasilva.52" target="_blank" title="Facebook">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <a href="https://www.facebook.com/fabio.marquesdasilva.52" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
             </a>
-            <a href="https://wa.me/5548996776089" target="_blank" title="WhatsApp">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <a href="https://wa.me/5548996776089" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
             </a>
-            <a href="https://www.marques.tv" target="_blank" title="Website">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            <a href="https://www.instagram.com/marquestv_eventos" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
               </svg>
             </a>
           </div>
@@ -493,11 +1044,38 @@
   </footer>
 
   <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/5548996776089?text=Olá! Vim pelo site e gostaria de mais informações." class="whatsapp-float" target="_blank" title="Fale conosco pelo WhatsApp">
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+  <a href="https://wa.me/5548996776089?text=Olá! Vim pelo site e gostaria de mais informações." class="whatsapp-float" target="_blank" rel="noopener" title="Fale conosco pelo WhatsApp" aria-label="Abrir WhatsApp">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
     </svg>
+    <span class="whatsapp-tooltip">Fale conosco!</span>
   </a>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo" title="Voltar ao topo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox-close" aria-label="Fechar">&times;</button>
+    <button class="lightbox-prev" aria-label="Anterior">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImage">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+    <button class="lightbox-next" aria-label="Próximo">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
 
   <!-- JavaScript -->
   <script src="js/modern.js"></script>

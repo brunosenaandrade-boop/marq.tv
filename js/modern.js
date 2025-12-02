@@ -4,13 +4,86 @@
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
+  initPreloader();
+  initThemeToggle();
   initParticles();
   initNavbar();
   initMobileMenu();
   initScrollAnimations();
   initSmoothScroll();
   initCounterAnimation();
+  initGalleryFilters();
+  initLightbox();
+  initTestimonialsCarousel();
+  initFAQAccordion();
+  initBackToTop();
+  initParallax();
+  initContactForm();
 });
+
+/* ============================================
+   PRELOADER
+   ============================================ */
+function initPreloader() {
+  const preloader = document.getElementById('preloader');
+  if (!preloader) return;
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      preloader.classList.add('hidden');
+      setTimeout(() => {
+        preloader.remove();
+      }, 500);
+    }, 1000);
+  });
+
+  // Fallback - hide preloader after 5 seconds max
+  setTimeout(() => {
+    if (preloader && preloader.parentNode) {
+      preloader.classList.add('hidden');
+      setTimeout(() => {
+        if (preloader.parentNode) preloader.remove();
+      }, 500);
+    }
+  }, 5000);
+}
+
+/* ============================================
+   THEME TOGGLE (Light/Dark Mode)
+   ============================================ */
+function initThemeToggle() {
+  const themeToggle = document.getElementById('themeToggle');
+  if (!themeToggle) return;
+
+  const sunIcon = themeToggle.querySelector('.sun-icon');
+  const moonIcon = themeToggle.querySelector('.moon-icon');
+
+  // Check for saved theme preference or default to dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeIcons(savedTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcons(newTheme);
+  });
+
+  function updateThemeIcons(theme) {
+    if (sunIcon && moonIcon) {
+      if (theme === 'dark') {
+        sunIcon.style.opacity = '1';
+        moonIcon.style.opacity = '0';
+      } else {
+        sunIcon.style.opacity = '0';
+        moonIcon.style.opacity = '1';
+      }
+    }
+  }
+}
 
 /* ============================================
    PARTICLES SYSTEM
@@ -56,13 +129,20 @@ function initParticles() {
       this.speedX = (Math.random() - 0.5) * 0.5;
       this.speedY = (Math.random() - 0.5) * 0.5;
 
-      // Color variations
-      const colors = [
+      // Color variations based on theme
+      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+      const colors = isDark ? [
         'rgba(0, 212, 170, 0.6)',
         'rgba(124, 58, 237, 0.6)',
         'rgba(255, 255, 255, 0.4)',
         'rgba(0, 212, 170, 0.3)',
         'rgba(124, 58, 237, 0.3)'
+      ] : [
+        'rgba(0, 180, 150, 0.5)',
+        'rgba(100, 40, 200, 0.5)',
+        'rgba(0, 0, 0, 0.2)',
+        'rgba(0, 180, 150, 0.3)',
+        'rgba(100, 40, 200, 0.3)'
       ];
       this.color = colors[Math.floor(Math.random() * colors.length)];
     }
@@ -126,6 +206,9 @@ function initParticles() {
 
   // Connect particles with lines
   function connectParticles() {
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    const lineColor = isDark ? '0, 212, 170' : '0, 150, 130';
+
     for (let a = 0; a < particles.length; a++) {
       for (let b = a + 1; b < particles.length; b++) {
         const dx = particles[a].x - particles[b].x;
@@ -134,7 +217,7 @@ function initParticles() {
 
         if (distance < 120) {
           const opacity = (120 - distance) / 120 * 0.3;
-          ctx.strokeStyle = `rgba(0, 212, 170, ${opacity})`;
+          ctx.strokeStyle = `rgba(${lineColor}, ${opacity})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(particles[a].x, particles[a].y);
@@ -237,9 +320,6 @@ function initScrollAnimations() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-
-        // Don't unobserve to allow re-animation if needed
-        // observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
@@ -317,6 +397,386 @@ function animateCounter(element) {
 }
 
 /* ============================================
+   GALLERY FILTERS
+   ============================================ */
+function initGalleryFilters() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+
+  if (!filterButtons.length || !galleryItems.length) return;
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const filter = button.getAttribute('data-filter');
+
+      // Filter gallery items
+      galleryItems.forEach(item => {
+        const category = item.getAttribute('data-category');
+
+        if (filter === 'todos' || category === filter) {
+          item.style.display = 'block';
+          item.style.animation = 'fadeIn 0.5s ease forwards';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
+/* ============================================
+   LIGHTBOX
+   ============================================ */
+function initLightbox() {
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  const lightbox = document.getElementById('lightbox');
+
+  if (!lightbox) return;
+
+  const lightboxImg = lightbox.querySelector('.lightbox-image');
+  const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+  const closeBtn = lightbox.querySelector('.lightbox-close');
+  const prevBtn = lightbox.querySelector('.lightbox-prev');
+  const nextBtn = lightbox.querySelector('.lightbox-next');
+
+  let currentIndex = 0;
+  let visibleItems = [];
+
+  function updateVisibleItems() {
+    visibleItems = Array.from(galleryItems).filter(item =>
+      item.style.display !== 'none'
+    );
+  }
+
+  function openLightbox(index) {
+    updateVisibleItems();
+    currentIndex = index;
+
+    const item = visibleItems[currentIndex];
+    const img = item.querySelector('img');
+    const overlay = item.querySelector('.gallery-overlay h4');
+
+    if (img) {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt || '';
+    }
+
+    if (overlay && lightboxCaption) {
+      lightboxCaption.textContent = overlay.textContent;
+    }
+
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    const item = visibleItems[currentIndex];
+    const img = item.querySelector('img');
+    const overlay = item.querySelector('.gallery-overlay h4');
+
+    if (img) {
+      lightboxImg.style.opacity = '0';
+      setTimeout(() => {
+        lightboxImg.src = img.src;
+        lightboxImg.style.opacity = '1';
+      }, 200);
+    }
+
+    if (overlay && lightboxCaption) {
+      lightboxCaption.textContent = overlay.textContent;
+    }
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    const item = visibleItems[currentIndex];
+    const img = item.querySelector('img');
+    const overlay = item.querySelector('.gallery-overlay h4');
+
+    if (img) {
+      lightboxImg.style.opacity = '0';
+      setTimeout(() => {
+        lightboxImg.src = img.src;
+        lightboxImg.style.opacity = '1';
+      }, 200);
+    }
+
+    if (overlay && lightboxCaption) {
+      lightboxCaption.textContent = overlay.textContent;
+    }
+  }
+
+  // Event listeners
+  galleryItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      updateVisibleItems();
+      const visibleIndex = visibleItems.indexOf(item);
+      if (visibleIndex !== -1) {
+        openLightbox(visibleIndex);
+      }
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (prevBtn) prevBtn.addEventListener('click', showPrev);
+  if (nextBtn) nextBtn.addEventListener('click', showNext);
+
+  // Close on background click
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+}
+
+/* ============================================
+   TESTIMONIALS CAROUSEL
+   ============================================ */
+function initTestimonialsCarousel() {
+  const track = document.querySelector('.testimonials-track');
+  const cards = document.querySelectorAll('.testimonial-card');
+  const prevBtn = document.querySelector('.carousel-prev');
+  const nextBtn = document.querySelector('.carousel-next');
+  const dotsContainer = document.querySelector('.carousel-dots');
+
+  if (!track || !cards.length) return;
+
+  let currentIndex = 0;
+  let cardWidth = 0;
+  let cardsToShow = 1;
+
+  function calculateDimensions() {
+    const containerWidth = track.parentElement.offsetWidth;
+
+    if (window.innerWidth >= 1024) {
+      cardsToShow = 3;
+    } else if (window.innerWidth >= 768) {
+      cardsToShow = 2;
+    } else {
+      cardsToShow = 1;
+    }
+
+    cardWidth = containerWidth / cardsToShow;
+
+    cards.forEach(card => {
+      card.style.minWidth = `${cardWidth}px`;
+    });
+  }
+
+  function createDots() {
+    if (!dotsContainer) return;
+
+    dotsContainer.innerHTML = '';
+    const totalDots = Math.ceil(cards.length / cardsToShow);
+
+    for (let i = 0; i < totalDots; i++) {
+      const dot = document.createElement('button');
+      dot.classList.add('carousel-dot');
+      dot.setAttribute('aria-label', `Slide ${i + 1}`);
+      if (i === 0) dot.classList.add('active');
+
+      dot.addEventListener('click', () => {
+        currentIndex = i * cardsToShow;
+        updateCarousel();
+      });
+
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function updateCarousel() {
+    const maxIndex = cards.length - cardsToShow;
+    if (currentIndex < 0) currentIndex = 0;
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+
+    // Update dots
+    if (dotsContainer) {
+      const dots = dotsContainer.querySelectorAll('.carousel-dot');
+      const activeDotIndex = Math.floor(currentIndex / cardsToShow);
+
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === activeDotIndex);
+      });
+    }
+  }
+
+  function goToPrev() {
+    currentIndex -= cardsToShow;
+    if (currentIndex < 0) currentIndex = Math.max(0, cards.length - cardsToShow);
+    updateCarousel();
+  }
+
+  function goToNext() {
+    currentIndex += cardsToShow;
+    if (currentIndex >= cards.length) currentIndex = 0;
+    updateCarousel();
+  }
+
+  // Initialize
+  calculateDimensions();
+  createDots();
+
+  // Event listeners
+  if (prevBtn) prevBtn.addEventListener('click', goToPrev);
+  if (nextBtn) nextBtn.addEventListener('click', goToNext);
+
+  // Recalculate on resize
+  window.addEventListener('resize', debounce(() => {
+    calculateDimensions();
+    createDots();
+    updateCarousel();
+  }, 250));
+
+  // Auto-play (optional)
+  let autoplayInterval;
+
+  function startAutoplay() {
+    autoplayInterval = setInterval(goToNext, 5000);
+  }
+
+  function stopAutoplay() {
+    clearInterval(autoplayInterval);
+  }
+
+  startAutoplay();
+
+  track.parentElement.addEventListener('mouseenter', stopAutoplay);
+  track.parentElement.addEventListener('mouseleave', startAutoplay);
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAutoplay();
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+    startAutoplay();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        goToNext();
+      } else {
+        goToPrev();
+      }
+    }
+  }
+}
+
+/* ============================================
+   FAQ ACCORDION
+   ============================================ */
+function initFAQAccordion() {
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  if (!faqItems.length) return;
+
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+
+    if (!question || !answer) return;
+
+    question.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+
+      // Close all other items (accordion behavior)
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+          const otherAnswer = otherItem.querySelector('.faq-answer');
+          if (otherAnswer) {
+            otherAnswer.style.maxHeight = null;
+          }
+        }
+      });
+
+      // Toggle current item
+      item.classList.toggle('active');
+
+      if (!isActive) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      } else {
+        answer.style.maxHeight = null;
+      }
+    });
+  });
+}
+
+/* ============================================
+   BACK TO TOP BUTTON
+   ============================================ */
+function initBackToTop() {
+  const backToTopBtn = document.getElementById('backToTop');
+
+  if (!backToTopBtn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 500) {
+      backToTopBtn.classList.add('visible');
+    } else {
+      backToTopBtn.classList.remove('visible');
+    }
+  });
+
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+/* ============================================
+   PARALLAX EFFECT
+   ============================================ */
+function initParallax() {
+  const parallaxLayers = document.querySelectorAll('.parallax-layer');
+
+  if (!parallaxLayers.length) return;
+
+  window.addEventListener('scroll', throttle(() => {
+    const scrolled = window.pageYOffset;
+
+    parallaxLayers.forEach(layer => {
+      const speed = parseFloat(layer.getAttribute('data-speed')) || 0.5;
+      const yPos = -(scrolled * speed);
+      layer.style.transform = `translate3d(0, ${yPos}px, 0)`;
+    });
+  }, 16));
+}
+
+/* ============================================
    FORM HANDLING
    ============================================ */
 function initContactForm() {
@@ -339,169 +799,66 @@ function initContactForm() {
 
     // Reset form
     form.reset();
+
+    // Show success message
+    showNotification('Redirecionando para o WhatsApp...', 'success');
   });
 }
 
-// Initialize form when DOM is ready
-document.addEventListener('DOMContentLoaded', initContactForm);
-
 /* ============================================
-   GALLERY LIGHTBOX (Optional Enhancement)
+   NOTIFICATION SYSTEM
    ============================================ */
-function initGalleryLightbox() {
-  const galleryItems = document.querySelectorAll('.gallery-item');
+function showNotification(message, type = 'info') {
+  // Remove existing notification
+  const existing = document.querySelector('.notification');
+  if (existing) existing.remove();
 
-  galleryItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const img = item.querySelector('img');
-      if (!img) return;
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <span>${message}</span>
+    <button class="notification-close">&times;</button>
+  `;
 
-      // Create lightbox
-      const lightbox = document.createElement('div');
-      lightbox.className = 'lightbox';
-      lightbox.innerHTML = `
-        <div class="lightbox-content">
-          <img src="${img.src}" alt="${img.alt || ''}">
-          <button class="lightbox-close">&times;</button>
-        </div>
-      `;
+  notification.style.cssText = `
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    background: ${type === 'success' ? 'var(--accent-primary)' : 'var(--accent-secondary)'};
+    color: ${type === 'success' ? 'var(--bg-primary)' : 'white'};
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10000;
+    animation: slideInRight 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  `;
 
-      // Add styles
-      lightbox.style.cssText = `
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.95);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        padding: 20px;
-        cursor: pointer;
-      `;
+  document.body.appendChild(notification);
 
-      const content = lightbox.querySelector('.lightbox-content');
-      content.style.cssText = `
-        position: relative;
-        max-width: 90vw;
-        max-height: 90vh;
-      `;
+  const closeBtn = notification.querySelector('.notification-close');
+  closeBtn.style.cssText = `
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  `;
 
-      const lightboxImg = lightbox.querySelector('img');
-      lightboxImg.style.cssText = `
-        max-width: 100%;
-        max-height: 90vh;
-        border-radius: 8px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      `;
+  closeBtn.addEventListener('click', () => notification.remove());
 
-      const closeBtn = lightbox.querySelector('.lightbox-close');
-      closeBtn.style.cssText = `
-        position: absolute;
-        top: -40px;
-        right: 0;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 2rem;
-        cursor: pointer;
-        padding: 10px;
-      `;
-
-      document.body.appendChild(lightbox);
-      document.body.style.overflow = 'hidden';
-
-      // Close handlers
-      const closeLightbox = () => {
-        lightbox.remove();
-        document.body.style.overflow = '';
-      };
-
-      lightbox.addEventListener('click', closeLightbox);
-      closeBtn.addEventListener('click', closeLightbox);
-
-      // Prevent close when clicking image
-      content.addEventListener('click', (e) => e.stopPropagation());
-
-      // Close on escape key
-      const handleEscape = (e) => {
-        if (e.key === 'Escape') {
-          closeLightbox();
-          document.removeEventListener('keydown', handleEscape);
-        }
-      };
-      document.addEventListener('keydown', handleEscape);
-    });
-  });
-}
-
-// Initialize gallery when DOM is ready
-document.addEventListener('DOMContentLoaded', initGalleryLightbox);
-
-/* ============================================
-   TYPING EFFECT (Optional for Hero)
-   ============================================ */
-function initTypingEffect() {
-  const element = document.querySelector('.typing-text');
-  if (!element) return;
-
-  const texts = element.getAttribute('data-texts')?.split(',') || ['Sonorização', 'Iluminação', 'Telões', 'Estruturas'];
-  let textIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  const typingSpeed = 100;
-  const deletingSpeed = 50;
-  const pauseTime = 2000;
-
-  function type() {
-    const currentText = texts[textIndex];
-
-    if (isDeleting) {
-      element.textContent = currentText.substring(0, charIndex - 1);
-      charIndex--;
-    } else {
-      element.textContent = currentText.substring(0, charIndex + 1);
-      charIndex++;
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.style.animation = 'slideOutRight 0.3s ease forwards';
+      setTimeout(() => notification.remove(), 300);
     }
-
-    let timeout = isDeleting ? deletingSpeed : typingSpeed;
-
-    if (!isDeleting && charIndex === currentText.length) {
-      timeout = pauseTime;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      textIndex = (textIndex + 1) % texts.length;
-      timeout = 500;
-    }
-
-    setTimeout(type, timeout);
-  }
-
-  type();
+  }, 5000);
 }
-
-// Initialize typing effect when DOM is ready
-document.addEventListener('DOMContentLoaded', initTypingEffect);
-
-/* ============================================
-   PRELOADER (Optional)
-   ============================================ */
-function initPreloader() {
-  const preloader = document.querySelector('.preloader');
-  if (!preloader) return;
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      preloader.classList.add('fade-out');
-      setTimeout(() => {
-        preloader.remove();
-      }, 500);
-    }, 500);
-  });
-}
-
-// Initialize preloader immediately
-initPreloader();
 
 /* ============================================
    UTILITY: Throttle function
@@ -527,3 +884,34 @@ function debounce(func, wait) {
     timeout = setTimeout(() => func.apply(this, args), wait);
   };
 }
+
+/* ============================================
+   ADD CSS ANIMATIONS DYNAMICALLY
+   ============================================ */
+(function addDynamicStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+})();
